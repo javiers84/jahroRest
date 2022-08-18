@@ -59,4 +59,9 @@ app.use('/api/productos', require('./routes/productosRoutes'));
 ///// ENVIO DE CORREO
 sendMail();
 
+///// MANEJADOR DE RUTAS
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'public/upload/', 'index.html'));
+// });
+
 app.use(router);

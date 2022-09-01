@@ -1,6 +1,9 @@
 const { response } = require('express');
 const nodemailer = require('nodemailer');
 
+const mail = require('../models/mailModel');
+
+//////// CREAR TRANSPORTER
 const createTrans = () => {
     const transport = nodemailer.createTransport({
         host: "smtp.mailtrap.io",
@@ -13,16 +16,16 @@ const createTrans = () => {
     return transport;
 }
 
-const sendMail = async(req, res = response) => {
-
+//////// ENVIAR MAIL
+const enviarMail = async(req, res = response) => {
     const { nombre, apellido, correo, telefono, consulta } = req.body;
     const transporter = createTrans();
     const info = await transporter.sendMail({
-        from: `${correo}`,
+        from: correo,
         to: 'makako84@gmail.com',
         subject: 'Hello ✔',
         // text: "mi nombre es " + nombre + " " + apellido + " mi telefono es " + telefono + " mi mensaje es " + mensaje,
-        html: "<h1>Hola</h1><p>mi nombre es " + nombre + " " + apellido + " mi telefono es " + telefono + " mi mensaje es " + `${consulta}` + "</p>"
+        html: "<h1>Hola</h1><p>mi nombre es " + nombre + " " + apellido + " mi telefono es " + telefono + " mi mensaje es " + consulta + "</p>"
     });
 
     console.log('Message sent: %s', info.messageId);
@@ -30,4 +33,6 @@ const sendMail = async(req, res = response) => {
     return
 }
 
-exports.sendMail = () => sendMail;
+module.exports = {
+    enviarMail
+}

@@ -57,7 +57,9 @@ app.use('/api/slider', require('./routes/sliderRoutes'));
 app.use('/api/productos', require('./routes/productosRoutes'));
 
 ///// ENVIO DE CORREO
-sendMail();
+app.use('/api/mail', require('./routes/mail'));
+
+// sendMail();
 
 ///// MANEJADOR DE RUTAS
 // app.get('*', (req, res) => {

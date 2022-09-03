@@ -76,8 +76,16 @@ const eliminarSlider = async(req, res = response) => {
     slider.findById(req.params.id, (err, retorno) => {
 
         retorno.remove((err, respuesta) => {
-            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
+            var urlImagen = retorno.imagen;
+            var fs = require("fs");
+            try {
+                fs.unlinkSync("public/" + urlImagen);
+                console.log('Archivo eliminado');
+            } catch (err) {
+                console.error('Ocurrio un error al eliminar el archivo', err);
+            }
 
+            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
             res.send({ estado: { codigo: 1, respuesta: "operacion eliminar slider exitosa " }, sliders: respuesta });
         });
     });

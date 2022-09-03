@@ -113,8 +113,20 @@ const eliminarNovedad = async(req, res = response) => {
     novedades.findById(req.params.id, (err, retorno) => {
 
         retorno.remove((err, respuesta) => {
-            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
+            var urlImagen = retorno.imagen;
+            var urlImagenDet1 = retorno.imagenDet1;
+            var urlImagenDet2 = retorno.imagenDet2;
+            var fs = require("fs");
+            try {
+                fs.unlinkSync("public/" + urlImagen);
+                fs.unlinkSync("public/" + urlImagenDet1);
+                fs.unlinkSync("public/" + urlImagenDet2);
+                console.log('Archivos eliminados');
+            } catch (err) {
+                console.error('Ocurrio un error al eliminar el archivo', err);
+            }
 
+            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
             res.send({ estado: { codigo: 1, respuesta: "operacion eliminar novedad exitosa " }, novedades: respuesta });
         });
     });

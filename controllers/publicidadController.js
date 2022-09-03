@@ -61,8 +61,6 @@ const actualizarPublicidad = async(req, res = response) => {
     publicidad.findById(req.params.id, (err, retorno) => {
         retorno.titulo = req.body.titulo;
         retorno.informacion = req.body.informacion;
-        // retorno.imagen = req.body.imagen;
-        // retorno.imagenDet = req.body.imagenDet;
 
         if (req.body.imagen != "" && req.body.imagenDet != null) {
             var imagen = req.body.imagen;
@@ -93,8 +91,18 @@ const eliminarPublicidad = async(req, res = response) => {
     publicidad.findById(req.params.id, (err, retorno) => {
 
         retorno.remove((err, respuesta) => {
-            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
+            var urlImagen = retorno.imagen;
+            var urlImagenDet = retorno.imagenDet;
+            var fs = require("fs");
+            try {
+                fs.unlinkSync("public/" + urlImagen);
+                fs.unlinkSync("public/" + urlImagenDet);
+                console.log('Archivos eliminados');
+            } catch (err) {
+                console.error('Ocurrio un error al eliminar el archivo', err);
+            }
 
+            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
             res.send({ estado: { codigo: 1, respuesta: "operacion eliminar publicidad exitosa " }, publicidades: respuesta });
         });
     });

@@ -66,30 +66,6 @@ const actualizarProducto = async(req, res = response) => {
             });
         }
     });
-
-
-
-
-
-
-    // const { id } = req.params;
-    // const { imagen } = req.body;
-
-    // try {
-    //     const producto = await productos.findByIdAndUpdate(id, {
-    //         imagen
-    //     });
-    //     res.json({
-    //         ok: true,
-    //         msg: 'Producto actualizado correctamente',
-    //         producto
-    //     });
-    // } catch (error) {
-    //     res.status(500).json({
-    //         ok: false,
-    //         msg: 'Hable con el Administrador'
-    //     });
-    // }
 }
 
 /////// ELIMINAR PRODUCTO
@@ -99,31 +75,21 @@ const eliminarProducto = async(req, res = response) => {
     productos.findById(req.params.id, (err, retorno) => {
 
         retorno.remove((err, respuesta) => {
+            var urlImagen = retorno.imagen;
+            console.log('url de la imagen ' + urlImagen);
+            var urlString = urlImagen.toString;
+            var fs = require("fs");
+            try {
+                fs.unlinkSync("public/" + urlImagen);
+                console.log('Archivo eliminado');
+            } catch (err) {
+                console.error('Ocurrio un error al eliminar el archivo', err);
+            }
             if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
 
             res.send({ estado: { codigo: 1, respuesta: "operacion eliminar producto exitosa " }, productos: respuesta });
         });
     });
-
-
-
-
-
-
-    // const { id } = req.params;
-
-    // try {
-    //     const producto = await productos.findByIdAndDelete(id);
-    //     res.json({
-    //         ok: true,
-    //         msg: 'Producto eliminado correctamente'
-    //     });
-    // } catch (error) {
-    //     res.status(500).json({
-    //         ok: false,
-    //         msg: 'Hable con el Administrador'
-    //     });
-    // }
 }
 
 module.exports = {

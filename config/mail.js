@@ -1,21 +1,21 @@
 const { response } = require('express');
 const nodemailer = require('nodemailer');
+const nodemailerSendGrid = require('nodemailer-sendgrid');
 
 const createTrans = () => {
-    const transport = nodemailer.createTransport({
-        // host: "smtp.mailtrap.io",
-        // port: 2525,
-        // auth: {
-        //     user: "812052db28ed5c",
-        //     pass: "c89f683e85f025"
-        // }
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        auth: {
-            user: 'makako84@gmail.com',
-            pass: 'reyvaj++1984'
-        }
-    });
+    // const transport = nodemailer.createTransport({
+    // host: "smtp.mailtrap.io",
+    // port: 2525,
+    // auth: {
+    //     user: "812052db28ed5c",
+    //     pass: "c89f683e85f025"
+    // }
+    const transport = nodemailer.createTransport(
+        nodemailerSendGrid({
+            apiKey: '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'
+        })
+    );
+    // });
     return transport;
 }
 

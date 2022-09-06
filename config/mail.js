@@ -25,7 +25,7 @@ const sendMail = async(req, res = response) => {
     const transporter = createTrans();
     const info = await transporter.sendMail({
         from: `${correo}`,
-        to: 'makako84@gmail.com',
+        to: 'j_javier_m@hotmail.com',
         subject: 'Hello ✔',
         // text: "mi nombre es " + nombre + " " + apellido + " mi telefono es " + telefono + " mi mensaje es " + mensaje,
         html: "<h1>Hola</h1><p>mi nombre es " + nombre + " " + apellido + " mi telefono es " + telefono + " mi mensaje es " + `${consulta}` + "</p>"

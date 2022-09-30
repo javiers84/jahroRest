@@ -12,12 +12,12 @@ router.post('/agregarCatalogo', [
 ], validarCampos, agregarCatalogo);
 
 ////// BUSCAR CATALOGO ////////////////
-router.get('/buscarCatalogos', validarJWT, buscarCatalogos);
+router.get('/buscarCatalogos', buscarCatalogos);
 
 ////// ACTUALIZAR CATALOGO ///////////////
-router.put('/actualizarCatalogo/:id', validarJWT, actualizarCatalogo);
+router.put('/actualizarCatalogo/:id', actualizarCatalogo);
 
 ////// ELIMINAR CATALOGO ///////////////
-router.delete('/eliminarCatalogo/:id', validarJWT, eliminarCatalogo);
+router.delete('/eliminarCatalogo/:id', eliminarCatalogo);
 
 module.exports = router;

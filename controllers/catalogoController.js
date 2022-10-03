@@ -5,26 +5,13 @@ const catalogo = require('../models/catalogoModel');
 ///////// AGREGAR CATALOGO ///////////////
 const agregarCatalogo = async(req, res = response) => {
 
-
     var catalogoAdd = new catalogo();
-    var catalogoPdf = req.body.catalogoPdf;
+    catalogoAdd.catalogoPdf = req.body.catalogoPdf;
 
-    var fs = require("fs");
-    var nombreArchivo = Math.random().toString() + ".html";
-    catalogoAdd.catalogoPdf = "upload/" + nombreArchivo;
-
-    fs.writeFile("public/upload/" + nombreArchivo, catalogoPdf, 'base64', (error) => {
-        productoAdd.save((error, respuesta) => {
-            if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
-            catalogoAdd.catalogoPdf = "upload/" + nombreArchivo;
-            res.send({ estado: { codigo: 1, respuesta: "operacion agregar producto exitosa " }, productos: respuesta });
-        });
+    catalogoAdd.save((error, respuesta) => {
+        if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
+        res.send({ estado: { codigo: 1, respuesta: "operacion agregar catalogo exitosa " }, catalogo: respuesta });
     });
-
-    //     catalogoAdd.save((error, respuesta) => {
-    //     if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
-    //     res.send({ estado: { codigo: 0, respuesta: "operacion agregar catalogo exitosa " }, catalogo: respuesta });
-    // });
 }
 
 ///////// BUSCAR CATALOGOS ////////////////
@@ -34,7 +21,12 @@ const buscarCatalogos = async(req, res = response) => {
     catalogo.find({}, (error, respuesta) => {
 
         if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
-        res.send({ estado: { codigo: 1, respuesta: "Operacion buscar todos los catalogos exitosa" }, catalogo: respuesta });
+        res.json({
+            ok: true,
+            msg: 'catalogo encontrado',
+            respuesta
+        });
+        // res.send({ estado: { codigo: 1, respuesta: "Operacion buscar todos los catalogos exitosa" }, catalogo: respuesta });
     });
 
 }
@@ -61,35 +53,15 @@ const buscarCatalogos = async(req, res = response) => {
 const actualizarCatalogo = async(req, res = response) => {
 
     catalogo.findById(req.params.id, (err, retorno) => {
-        if (req.body.catalogoPdf != "") {
-            var catalogoPdf = req.body.catalogoPdf;
-            var fs = require("fs");
-            var nombreArchivo = Math.random().toString() + ".html";
-            retorno.catalogoPdf = "upload/" + nombreArchivo;
-
-            fs.writeFile("public/upload/" + nombreArchivo, catalogoPdf, 'base64', (error) => {
-                retorno.save((error, respuesta) => {
-                    if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
-                    retorno.catalogoPdf = "upload/" + nombreArchivo;
-                    res.send({ estado: { codigo: 1, respuesta: "operacion agregar novedad exitosa " }, catalogo: respuesta });
-                });
-            });
-        }
-    });
-
-
-
-
-
-
-    catalogo.findById(req.params.id, (err, retorno) => {
         retorno.catalogoPdf = req.body.catalogoPdf;
 
-        retorno.save((err, respuesta) => {
-            if (err) res.send({ estado: { codigo: 0, respuesta: err.message } });
+        if (req.body.catalogoPdf != "") {
 
-            res.send({ estado: { codigo: 1, respuesta: "operacion actualizar catalogo exitosa " }, catalogo: respuesta });
-        });
+            retorno.save((error, respuesta) => {
+                if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
+                res.send({ estado: { codigo: 1, respuesta: "operacion actualizar catalogo exitosa " }, catalogo: respuesta });
+            });
+        }
     });
 
 }

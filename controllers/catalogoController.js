@@ -26,6 +26,7 @@ const buscarCatalogos = async(req, res = response) => {
             msg: 'catalogo encontrado',
             respuesta
         });
+        console.log('datos a enviar al front: ', respuesta);
         // res.send({ estado: { codigo: 1, respuesta: "Operacion buscar todos los catalogos exitosa" }, catalogo: respuesta });
     });
 

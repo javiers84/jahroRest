@@ -26,7 +26,6 @@ const buscarCatalogos = async(req, res = response) => {
             msg: 'catalogo encontrado',
             respuesta
         });
-        console.log('datos a enviar al front: ', respuesta);
         // res.send({ estado: { codigo: 1, respuesta: "Operacion buscar todos los catalogos exitosa" }, catalogo: respuesta });
     });
 
@@ -56,13 +55,10 @@ const actualizarCatalogo = async(req, res = response) => {
     catalogo.findById(req.params.id, (err, retorno) => {
         retorno.catalogoPdf = req.body.catalogoPdf;
 
-        if (req.body.catalogoPdf != "") {
-
-            retorno.save((error, respuesta) => {
-                if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
-                res.send({ estado: { codigo: 1, respuesta: "operacion actualizar catalogo exitosa " }, catalogo: respuesta });
-            });
-        }
+        retorno.save((error, respuesta) => {
+            if (error) res.send({ estado: { codigo: 0, respuesta: error.message } });
+            res.send({ estado: { codigo: 1, respuesta: "operacion actualizar catalogo exitosa " }, catalogo: respuesta });
+        });
     });
 
 }
